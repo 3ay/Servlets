@@ -1,6 +1,8 @@
 package ru.netology.homework.controller;
 
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import ru.netology.homework.exception.PostNotFoundException;
 import ru.netology.homework.model.Post;
 import ru.netology.homework.service.PostService;
@@ -9,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Reader;
 
+@Controller
 public class PostController {
     public static final String APPLICATION_JSON = "application/json";
     private final PostService service;
 
+    @Autowired
     public PostController(PostService service) {
         this.service = service;
     }
@@ -44,8 +48,7 @@ public class PostController {
             final var post = gson.fromJson(body, Post.class);
             final var data = service.save(post);
             response.getWriter().print(gson.toJson(data));
-        }
-        catch (PostNotFoundException e) {
+        } catch (PostNotFoundException e) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.getWriter().print(gson.toJson("Post not found."));
         }

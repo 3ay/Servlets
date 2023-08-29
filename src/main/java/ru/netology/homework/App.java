@@ -1,23 +1,25 @@
 package ru.netology.homework;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.netology.homework.controller.PostController;
-import ru.netology.homework.repository.PostRepository;
-import ru.netology.homework.service.PostService;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class App extends HttpServlet {
     private PostController controller;
+    private ApplicationContext context;
     private static final String POSTS_API_REGEX = "/api/posts";
     private static final String POSTS_API_ID_REGEX = "/api/posts/\\d+";
 
     @Override
-    public void init() {
-        final var repository = new PostRepository();
-        final var service = new PostService(repository);
-        controller = new PostController(service);
+    public void init() throws ServletException {
+        super.init();
+        context = new AnnotationConfigApplicationContext(AppConfig.class);
+        controller = context.getBean(PostController.class);
     }
 
     @Override
