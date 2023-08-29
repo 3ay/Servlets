@@ -3,6 +3,8 @@ package ru.netology.homework;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.netology.homework.controller.PostController;
+import ru.netology.homework.repository.PostRepository;
+import ru.netology.homework.service.PostService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
